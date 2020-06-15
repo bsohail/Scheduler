@@ -1,13 +1,22 @@
 import React from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import TextField from '@material-ui/core/TextField';
+import CardContent from '@material-ui/core/CardContent';
+import moment from 'moment';
+import 'react-week-calendar/dist/style.css';
+import WeekCalendar from 'react-week-calendar';
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -59,15 +68,71 @@ const useStyles = makeStyles({
     },
 });
 
+
 function Scheduler () {
-
-
+const [myValue, setValue] = React.useState('');
 const classes = useStyles();
     return (
-	<Container maxWidth="md">
-      <h2>
-        Schedule maker
-      </h2>
+	<Container maxWidth="lg">
+  <Paper elevation={3} style={{marginTop:'50px'}} >
+  <Grid container spacing={0}>
+    <Grid item xs={2}  >
+    <Card style={{display:'flex', justifyContent:'center'}}>
+    <CardContent >
+    <Typography variant="h6" noWrap style={{textAlign:'center'}}>
+      Toolbar
+      </Typography>
+<br/><br/>
+<TextField
+          id="filled-helperText"
+          label="Title"
+          defaultValue=""
+          variant="outlined"
+          onChange={(e) => setValue(e.target.value)}
+        />
+<br/><br/>
+      <Button variant="outlined" color="default" style={{color:'green'}} >Add course</Button>
+      <br/><br/>
+      <Button variant="outlined" color="default" style={{color:'red'}}>Remove course</Button>
+      <br/><br/>
+      <Button variant="outlined" color="default" style={{color:'#FFCE00'}} >Backup as JSON</Button>
+      <br/><br/>
+      <Button variant="outlined" color="default" style={{color:'#FFCE00'}} >Upload JSON</Button>
+      <br/><br/>
+      <Button variant="outlined" color="default" style={{color:'#005596'}} >Save as JPG</Button>
+    </CardContent>
+    </Card>
+
+
+      </Grid>
+
+      <Grid item xs={10}>
+<Container maxWidth="md">
+<Card>
+<CardContent >
+<Typography variant="h6" noWrap style={{textAlign:'center'}} >
+  {myValue.toString()}
+</Typography>
+
+  <WeekCalendar
+      startTime = {moment({h: 8, m: 0})}
+      endTime = {moment({h: 22, m: 1})}
+      numberOfDays= {5}
+      scaleUnit={60}
+      firstDay={moment().day(1)}
+      dayFormat={'ddd'}
+      useModal={false}
+      //selectedIntervals = {this.state.selectedIntervals}
+      //onIntervalSelect = {this.handleSelect}
+    //  onIntervalUpdate = {this.handleEventUpdate}
+      //onIntervalRemove = {this.handleEventRemove}
+    />
+    </CardContent>
+    </Card>
+
+
+{ /**using material ui table **/}
+  {/**
 <TableContainer component={Paper} style={{maxHeight:600}}>
       <Table classtime={classes.table} aria-label="customized table">
         <TableHead>
@@ -95,6 +160,11 @@ const classes = useStyles();
         </TableBody>
       </Table>
     </TableContainer>
+    **/}
+    </Container>
+    </Grid>
+    </Grid>
+    </Paper>
     <br/>
     <h5 style={{textAlign:'center'}}>Nitin Ramesh, Bilal Sohail 2020</h5>
 	</Container>
