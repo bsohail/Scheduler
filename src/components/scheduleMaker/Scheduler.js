@@ -17,6 +17,14 @@ import CardContent from '@material-ui/core/CardContent';
 import moment from 'moment';
 import 'react-week-calendar/dist/style.css';
 import WeekCalendar from 'react-week-calendar';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -66,12 +74,35 @@ const useStyles = makeStyles({
         borderColor: 'black',
         borderStyle: 'solid',
     },
-});
 
+});
+const useStyles2 = makeStyles(theme => ({
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+
+    boxShadow: 'none',
+    padding: theme.spacing(2, 4, 3)
+  }
+}));
 
 function Scheduler () {
 const [myValue, setValue] = React.useState('');
+ const [openOptions, setOpenOptions] = React.useState(false);
+ const handleOpenOptions = () => {
+    setOpenOptions(true);
+  };
+
+  const handleCloseOptions = () => {
+    setOpenOptions(false);
+  };
+
 const classes = useStyles();
+const classes2 = useStyles2();
     return (
 	<Container maxWidth="lg">
   <Paper elevation={3} style={{marginTop:'50px'}} >
@@ -108,6 +139,25 @@ const classes = useStyles();
 
       <Grid item xs={10}>
 <Container maxWidth="md">
+<AppBar position="static" style={{backgroundColor:'transparent', boxShadow:'none'}}>
+  <Toolbar>
+  <Grid
+      justify="space-between" // Add it here :)
+      container
+      spacing={24}
+    >
+    <Grid item />
+
+      <Grid item>
+<Tooltip title="Options">
+    <IconButton edge="start" className={classes.menuButton} color="black" aria-label="menu" onClick={handleOpenOptions}>
+      <MoreVertIcon />
+    </IconButton>
+</Tooltip>
+      </Grid>
+    </Grid>
+  </Toolbar>
+</AppBar>
 <Card>
 <CardContent >
 <Typography variant="h6" noWrap style={{textAlign:'center'}} >
@@ -129,45 +179,35 @@ const classes = useStyles();
     />
     </CardContent>
     </Card>
-
-
-{ /**using material ui table **/}
-  {/**
-<TableContainer component={Paper} style={{maxHeight:600}}>
-      <Table classtime={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center" >Time</StyledTableCell>
-            <StyledTableCell align="center">Mon</StyledTableCell>
-            <StyledTableCell align="center">Tue</StyledTableCell>
-            <StyledTableCell align="center">Wed</StyledTableCell>
-            <StyledTableCell align="center">Thu</StyledTableCell>
-            <StyledTableCell align="center">Fri</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.time}>
-              <StyledTableCell align="center" className={classes.tableRightBorder}>{row.time}</StyledTableCell>
-
-              <StyledTableCell align="right" className={classes.tableRightBorder}>{row.monday}</StyledTableCell>
-              <StyledTableCell align="right" className={classes.tableRightBorder}>{row.tuesday}</StyledTableCell>
-              <StyledTableCell align="right" className={classes.tableRightBorder}>{row.wednesday}</StyledTableCell>
-              <StyledTableCell align="right" className={classes.tableRightBorder}>{row.thursday}</StyledTableCell>
-              <StyledTableCell align="right" >{row.friday}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    **/}
     </Container>
     </Grid>
     </Grid>
+    <Modal
+
+          className={classes2.modal}
+          open={openOptions}
+          onClose={handleCloseOptions}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500
+          }}
+        >
+          <Fade in={openOptions}>
+            <div className={classes2.paper}>
+              <h2 >Options</h2>
+              <p >
+                theme options and 5/7 days option go here.
+              </p>
+            </div>
+          </Fade>
+        </Modal>
     </Paper>
+
     <br/>
     <h5 style={{textAlign:'center'}}>Nitin Ramesh, Bilal Sohail 2020</h5>
 	</Container>
+
     );
   }
 
