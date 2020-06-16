@@ -15,7 +15,7 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import CardContent from '@material-ui/core/CardContent';
 import moment from 'moment';
-import 'react-week-calendar/dist/style.css';
+import './style.css';
 import WeekCalendar from 'react-week-calendar';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -27,57 +27,12 @@ import Backdrop from "@material-ui/core/Backdrop";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Fade from "@material-ui/core/Fade";
 import Checkbox from '@material-ui/core/Checkbox';
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 11,
-  },
-}))(TableCell);
+import { SliderPicker } from 'react-color'
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
 function createData(time, monday, tuesday, wednesday, thursday, friday) {
   return { time, monday, tuesday, wednesday, thursday, friday };
 }
 
-const rows = [
-  createData('08.00'),
-  createData('09.00'),
-  createData('10.00'),
-  createData('11.00'),
-  createData('12.00'),
-  createData('13.00'),
-  createData('14.00'),
-  createData('15.00'),
-  createData('16.00'),
-  createData('17.00'),
-  createData('18.00'),
-  createData('19.00'),
-  createData('20.00'),
-  createData('21.00'),
-  createData('22.00'),
-];
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 600,
-  },
-  tableRightBorder: {
-        borderWidth: 0,
-        borderRightWidth: 1,
-        borderColor: 'black',
-        borderStyle: 'solid',
-    },
-
-});
 const useStyles2 = makeStyles(theme => ({
   modal: {
     display: "flex",
@@ -96,7 +51,8 @@ function Scheduler () {
 const [myValue, setValue] = React.useState('');
  const [openOptions, setOpenOptions] = React.useState(false);
  const [weekends, setWeekends]=React.useState(false);
-
+const[headerColor, setheaderColor]=React.useState('#000000');
+const[backgroundColor, setbackgroundColor]=React.useState('#FFFFFF');
  const handleOpenOptions = () => {
     setOpenOptions(true);
   };
@@ -104,9 +60,13 @@ const [myValue, setValue] = React.useState('');
   const handleCloseOptions = () => {
     setOpenOptions(false);
   };
-const day1=5;
-const day2=7;
-const classes = useStyles();
+  const handleColorChange = (hex) =>{
+
+    setheaderColor(hex.hex.toString());
+  };
+  const handleBackgroundColorChange = (hex) =>{
+    setbackgroundColor(hex.hex.toString());
+  };
 const classes2 = useStyles2();
     return (
 	<Container maxWidth="lg">
@@ -155,7 +115,7 @@ const classes2 = useStyles2();
 
       <Grid item>
 <Tooltip title="Options">
-    <IconButton edge="start" className={classes.menuButton} color="black" aria-label="menu" onClick={handleOpenOptions}>
+    <IconButton edge="start"  color="black" aria-label="menu" onClick={handleOpenOptions}>
       <MoreVertIcon />
     </IconButton>
 </Tooltip>
@@ -163,9 +123,9 @@ const classes2 = useStyles2();
     </Grid>
   </Toolbar>
 </AppBar>
-<Card>
-<CardContent >
-<Typography variant="h6" noWrap style={{textAlign:'center'}} >
+<Card style={{marginBottom:15}}>
+<CardContent style={{backgroundColor: backgroundColor}}>
+<Typography variant="h6" noWrap style={{textAlign:'center', color:headerColor}} >
   {myValue.toString()}
 </Typography>
 {weekends &&
@@ -177,6 +137,7 @@ const classes2 = useStyles2();
       firstDay={moment().day(1)}
       dayFormat={'dddd'}
       useModal={false}
+      scaleFormat={'LT'}
       //selectedIntervals = {this.state.selectedIntervals}
       //onIntervalSelect = {this.handleSelect}
     //  onIntervalUpdate = {this.handleEventUpdate}
@@ -190,6 +151,7 @@ const classes2 = useStyles2();
         firstDay={moment().day(1)}
         dayFormat={'dddd'}
         useModal={false}
+        scaleFormat={'LT'}
         //selectedIntervals = {this.state.selectedIntervals}
         //onIntervalSelect = {this.handleSelect}
       //  onIntervalUpdate = {this.handleEventUpdate}
@@ -224,6 +186,16 @@ const classes2 = useStyles2();
           onChange={(e) => setWeekends(e.target.checked)}
         />
         <p>Currently: {weekends?7:5} days shown</p>
+        <p>Header color: </p>
+        <SliderPicker
+          color={headerColor}
+          onChangeComplete={ handleColorChange }
+         />
+         <p>background color: </p>
+         <SliderPicker
+           color={backgroundColor}
+           onChangeComplete={ handleBackgroundColorChange }
+          />
               <p >
                 theme options go here.
               </p>

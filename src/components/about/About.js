@@ -11,6 +11,7 @@ class About extends React.Component {
       <h4>React: MIT license</h4>
       <h4>Material UI: MIT license</h4>
       <h4>React-weekly-calender: MIT license </h4>
+      <h4>react-color: MIT license</h4>
 	</Container>
     );
   }
