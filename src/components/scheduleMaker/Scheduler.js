@@ -24,7 +24,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Fade from "@material-ui/core/Fade";
+import Checkbox from '@material-ui/core/Checkbox';
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -93,6 +95,8 @@ const useStyles2 = makeStyles(theme => ({
 function Scheduler () {
 const [myValue, setValue] = React.useState('');
  const [openOptions, setOpenOptions] = React.useState(false);
+ const [weekends, setWeekends]=React.useState(false);
+
  const handleOpenOptions = () => {
     setOpenOptions(true);
   };
@@ -100,7 +104,8 @@ const [myValue, setValue] = React.useState('');
   const handleCloseOptions = () => {
     setOpenOptions(false);
   };
-
+const day1=5;
+const day2=7;
 const classes = useStyles();
 const classes2 = useStyles2();
     return (
@@ -163,20 +168,34 @@ const classes2 = useStyles2();
 <Typography variant="h6" noWrap style={{textAlign:'center'}} >
   {myValue.toString()}
 </Typography>
-
+{weekends &&
   <WeekCalendar
       startTime = {moment({h: 8, m: 0})}
       endTime = {moment({h: 22, m: 1})}
-      numberOfDays= {5}
+      numberOfDays= {7}
       scaleUnit={60}
       firstDay={moment().day(1)}
-      dayFormat={'ddd'}
+      dayFormat={'dddd'}
       useModal={false}
       //selectedIntervals = {this.state.selectedIntervals}
       //onIntervalSelect = {this.handleSelect}
     //  onIntervalUpdate = {this.handleEventUpdate}
       //onIntervalRemove = {this.handleEventRemove}
-    />
+    />}
+    { !weekends && <WeekCalendar
+        startTime = {moment({h: 8, m: 0})}
+        endTime = {moment({h: 22, m: 1})}
+        numberOfDays= {5}
+        scaleUnit={60}
+        firstDay={moment().day(1)}
+        dayFormat={'dddd'}
+        useModal={false}
+        //selectedIntervals = {this.state.selectedIntervals}
+        //onIntervalSelect = {this.handleSelect}
+      //  onIntervalUpdate = {this.handleEventUpdate}
+        //onIntervalRemove = {this.handleEventRemove}
+      />
+  }
     </CardContent>
     </Card>
     </Container>
@@ -196,8 +215,17 @@ const classes2 = useStyles2();
           <Fade in={openOptions}>
             <div className={classes2.paper}>
               <h2 >Options</h2>
+              <FormControlLabel
+          value="Include weekends"
+          control={<Checkbox color="primary" />}
+          label="Include weekends"
+          labelPlacement="start"
+          checked={weekends}
+          onChange={(e) => setWeekends(e.target.checked)}
+        />
+        <p>Currently: {weekends?7:5} days shown</p>
               <p >
-                theme options and 5/7 days option go here.
+                theme options go here.
               </p>
             </div>
           </Fade>
